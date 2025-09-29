@@ -33,3 +33,9 @@ class Player:
         self.piece_color = color
         self.alive = 12
         self.dead = 0
+
+class AI:
+    def __init__(self, color: PieceColors):
+        self.piece_color = color
+        self.alive = 12
+        self.dead = 0
