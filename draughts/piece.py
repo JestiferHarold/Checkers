@@ -11,11 +11,6 @@ class Piece:
     self.col = col
     self.color = color
     self.king = False
-    if self.color == PieceColors.WHITE:
-      self.direction = -1
-    else:
-      self.direction = 1
-
     self.x = self.y = 0
 
   def calculate_position(self):
