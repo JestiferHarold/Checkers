@@ -23,10 +23,10 @@ class Game:
 
   def select(self, row: int, col: int) -> bool:
     if self.selected:
-      result = self.move(row, col)
+      result = self._move(row, col)
       if not result:
         self.selected = None
-        self.select(row, col)
+        return self.select(row, col)
 
     piece = self.board.get_piece(row, col)
 
@@ -73,3 +73,5 @@ class Game:
   def ai_move(self, board: Board):
     self.board = board
     self.change_turn()
+    self.selected = None
+    self.valid_moves = {}
