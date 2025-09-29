@@ -1,5 +1,6 @@
 import pygame
 from draughts import HEIGHT, WIDTH, Board, BLOCK_SIZE, Game, PieceColors
+from algorithms import minimax
 from typing import Tuple
 
 running: bool = True
@@ -18,6 +19,10 @@ def get_row_and_col_from_mouse(position: Tuple[int, int]) -> Tuple[int, int]:
 
 while running:
   clock.tick(FPS)
+
+  if game.turn == PieceColors.WHITE:
+    value, new_board = minimax(game.get_board(), 3, PieceColors.WHITE, game)
+    game.ai_move(new_board)
 
   if game.winner() != None:
     print(game.winner())

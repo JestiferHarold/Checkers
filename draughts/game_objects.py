@@ -74,6 +74,18 @@ class Board:
         else:
             return None
     
+    def evaluate(self) -> int:
+        return self.white_alive - self.red_alive + (self.white_kings_alive * 0.5 - self.red_kings_alive * 0.5)
+    
+    def get_all_pieces(self, color: PieceColors) -> List[Piece]:
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+
+        return pieces
+
     def get_valid_moves(self, piece: Piece) -> Dict:
         moves = {}
         left = piece.col - 1

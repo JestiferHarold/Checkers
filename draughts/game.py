@@ -58,7 +58,7 @@ class Game:
   def draw_valid_moves(self, moves) -> None:
     for move in moves:
       row, col = move
-      pygame.draw.circle(self.screen, PieceColors.BLUE.value, (col * BLOCK_SIZE + BLOCK_SIZE // 2, row * BLOCK_SIZE + BLOCK_SIZE // 2), 50)
+      pygame.draw.circle(self.screen, PieceColors.BLUE.value, (col * BLOCK_SIZE + BLOCK_SIZE // 2, row * BLOCK_SIZE + BLOCK_SIZE // 2), 15)
 
   def change_turn(self) -> None:
     self.valid_moves = dict()
@@ -66,3 +66,10 @@ class Game:
       self.turn = PieceColors.WHITE
     else:
       self.turn = PieceColors.RED
+
+  def get_board(self) -> Board:
+    return self.board
+  
+  def ai_move(self, board: Board):
+    self.board = board
+    self.change_turn()
