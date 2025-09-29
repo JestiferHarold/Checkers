@@ -5,7 +5,7 @@ from typing import Tuple
 
 running: bool = True
 FPS: int = 120
-screen: pygame.Surface = pygame.display.set_mode((HEIGHT, WIDTH))
+screen: pygame.Surface = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Draughts")
 clock: pygame.time.Clock = pygame.time.Clock()
 game: Game = Game(screen)

@@ -17,7 +17,7 @@ class Board:
         surface.fill((0, 0, 0))
         for row in range(ROWS):
             for col in range(row % 2, ROWS, 2):
-                draw.rect(surface, BoardColor.RED.value, (row * BLOCK_SIZE, col * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+                draw.rect(surface, BoardColor.RED.value, (col * BLOCK_SIZE, row * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
 
     def move(self, piece: Piece, row: int, col: int) -> None:
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
@@ -39,10 +39,14 @@ class Board:
             for col in range(COLS):
                 if col % 2 == ((row + 1) % 2):
                     if row < 3:
-                        self.board[row].append(Piece(row, col, PieceColors.WHITE))
+                        p = Piece(row, col, PieceColors.WHITE)
+                        p.calculate_position()
+                        self.board[row].append(p)
 
                     elif row > 4:
-                        self.board[row].append(Piece(row, col, PieceColors.RED))
+                        p = Piece(row, col, PieceColors.RED)
+                        p.calculate_position()
+                        self.board[row].append(p)
                     
                     else:
                         self.board[row].append(0)
@@ -93,11 +97,11 @@ class Board:
         row = piece.row
         if piece.color == PieceColors.RED or piece.king:
             moves.update(self._traverse_left(row - 1, max(row - 3, -1), -1, piece.color, left))
-            moves.update(self._traverse_right(row - 1, max(row - 3, -1), -1, piece.color, left))
+            moves.update(self._traverse_right(row - 1, max(row - 3, -1), -1, piece.color, right))
 
         if piece.color == PieceColors.WHITE or piece.king:
             moves.update(self._traverse_left(row + 1, min(row + 3, ROWS), 1, piece.color, left))
-            moves.update(self._traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, left))
+            moves.update(self._traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, right))
 
         return moves
 
@@ -125,7 +129,7 @@ class Board:
                         row: int = min(r + r, ROWS)
 
                     moves.update(self._traverse_left(r + step, row, step, color, left - 1, last))
-                    moves.update(self._traverse_left(r + step, row, step, color, left + 1, last))
+                    moves.update(self._traverse_right(r + step, row, step, color, left + 1, last))
                     break
             elif current.color == color:
                 break
@@ -138,7 +142,7 @@ class Board:
 
     def _traverse_right(self, start: int, stop: int, step: int, color: PieceColors, right: int, skipped: List = []) -> Dict:
         moves: Dict = {}
-        last: Dict = []
+        last: List = []
         for r in range(start, stop, step):
             if right >= COLS:
                 break
@@ -159,7 +163,7 @@ class Board:
                     else:
                         row: int = min(r + r, ROWS)
 
-                    moves.update(self._traverse_right(r + step, row, step, color, right - 1, last))
+                    moves.update(self._traverse_left(r + step, row, step, color, right - 1, last))
                     moves.update(self._traverse_right(r + step, row, step, color, right + 1, last))
                     break
             elif current.color == color:
