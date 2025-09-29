@@ -1,1 +1,1 @@
-from minimax import *
+from .minimax import *

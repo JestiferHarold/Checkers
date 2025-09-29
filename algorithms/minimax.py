@@ -1,5 +1,5 @@
 from copy import deepcopy
-from enums import PieceColor
+from algorithms.enum import PieceColor
 import pygame
 
 def simulate_move(piece, move, board, game, skip):
