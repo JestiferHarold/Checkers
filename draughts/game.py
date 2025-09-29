@@ -7,21 +7,21 @@ class Game:
     self._game_start()
     self.screen = screen
 
-  def update(self):
+  def update(self) -> None:
     self.board.draw(self.screen)
     self.draw_valid_moves(self.valid_moves)
     pygame.display.update()
 
-  def _game_start(self):
+  def _game_start(self) -> None:
     self.selected = None
     self.board = Board()
     self.turn = PieceColors.RED
     self.valid_moves = dict()
 
-  def reset(self):
+  def reset(self) -> None:
     self._game_start()
 
-  def select(self, row, col):
+  def select(self, row: int, col: int) -> bool:
     if self.selected:
       result = self.move(row, col)
       if not result:
@@ -37,7 +37,7 @@ class Game:
   
     return False
 
-  def _move(self, row, col):    
+  def _move(self, row: int, col: int) -> bool:    
     piece = self.board.get_piece(row, col)
     if self.selected and piece == 0 and (row, col) in self.valid_moves:
       self.board.move(self.selected, row, col)
@@ -51,15 +51,16 @@ class Game:
   
     return True
   
-  def winner(self):
+  def winner(self) -> PieceColors | None:
     return self.board.winner()
   
-  def draw_valid_moves(self, moves):
+  #complete this
+  def draw_valid_moves(self, moves) -> None:
     for move in moves:
       row, col = move
-      pygame.draw.circle(self.screen, PieceColors.BLUE, (col * BLOCK_SIZE + BLOCK_SIZE // 2, row * BLOCK_SIZE + BLOCK_SIZE // 2), 50)
+      pygame.draw.circle(self.screen, PieceColors.BLUE.value, (col * BLOCK_SIZE + BLOCK_SIZE // 2, row * BLOCK_SIZE + BLOCK_SIZE // 2), 50)
 
-  def change_turn(self):
+  def change_turn(self) -> None:
     self.valid_moves = dict()
     if self.turn == PieceColors.RED:
       self.turn = PieceColors.WHITE

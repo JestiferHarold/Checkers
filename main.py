@@ -1,5 +1,6 @@
 import pygame
 from draughts import HEIGHT, WIDTH, Board, BLOCK_SIZE, Game, PieceColors
+from typing import Tuple
 
 running: bool = True
 FPS: int = 120
@@ -8,7 +9,7 @@ pygame.display.set_caption("Draughts")
 clock: pygame.time.Clock = pygame.time.Clock()
 game: Game = Game(screen)
 
-def get_row_and_col_from_mouse(position):
+def get_row_and_col_from_mouse(position: Tuple[int, int]) -> Tuple[int, int]:
   x, y =  position
   row = y // BLOCK_SIZE
   col = x // BLOCK_SIZE
@@ -18,7 +19,9 @@ def get_row_and_col_from_mouse(position):
 while running:
   clock.tick(FPS)
 
-  game.
+  if game.winner() != None:
+    print(game.winner())
+    break
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:

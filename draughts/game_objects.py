@@ -1,22 +1,25 @@
 from pygame import Surface, draw
 from .enums_and_constants import BoardColor, ROWS, BLOCK_SIZE, COLS, PieceColors
 from .piece import Piece
+from typing import List, Dict
 
 class Board:
-    def __init__(self):
+    def __init__(self) -> None:
         self.board = list()
-        self.selected_piece = None
-        self.red_alive = self.white_alive = 12
-        self.red_kings_alive = self.white_kings_alive = 0
+        self.selected_piece: Piece | None = None
+        self.red_alive: int = 12 
+        self.white_alive: int = 12
+        self.red_kings_alive: int = 0
+        self.white_kings_alive:int = 0
         self.create_board()
 
-    def draw_squares(self, surface: Surface):
+    def draw_squares(self, surface: Surface) -> None:
         surface.fill((0, 0, 0))
         for row in range(ROWS):
             for col in range(row % 2, ROWS, 2):
-                draw.rect(surface, BoardColor.RED, (row * BLOCK_SIZE, col * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+                draw.rect(surface, BoardColor.RED.value, (row * BLOCK_SIZE, col * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
 
-    def move(self, piece, row, col):
+    def move(self, piece: Piece, row: int, col: int) -> None:
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
 
@@ -27,10 +30,10 @@ class Board:
             else:
                 self.red_kings_alive += 1
 
-    def get_piece(self, row, col):
+    def get_piece(self, row: int, col: int) -> Piece | int:
         return self.board[row][col]
 
-    def create_board(self):
+    def create_board(self) -> None:
         for row in range(ROWS):
             self.board.append(list())
             for col in range(COLS):
@@ -46,7 +49,7 @@ class Board:
                 else:
                     self.board[row].append(0)
         
-    def draw(self, screen):
+    def draw(self, screen: Surface) -> None:
         self.draw_squares(screen)
         for row in range(ROWS):
             for col in range(COLS):
@@ -54,7 +57,7 @@ class Board:
                 if piece != 0:
                     piece.draw(screen)
 
-    def remove(self, pieces):
+    def remove(self, pieces: List[Piece]) -> None:
         for piece in pieces:
             self.board[piece.row][piece.col] = 0
             if piece != 0:
@@ -63,7 +66,7 @@ class Board:
                 else:
                     self.white_alive -= 1
         
-    def winner(self):
+    def winner(self) -> PieceColors | None:
         if self.red_alive <= 0:
             return PieceColors.WHITE
         elif self.white_alive <= 0:
@@ -71,7 +74,7 @@ class Board:
         else:
             return None
     
-    def get_valid_moves(self, piece: Piece):
+    def get_valid_moves(self, piece: Piece) -> Dict:
         moves = {}
         left = piece.col - 1
         right = piece.col + 1
@@ -86,14 +89,14 @@ class Board:
 
         return moves
 
-    def _traverse_left(self, start, stop, step, color, left, skipped = []):
-        moves = {}
-        last = []
+    def _traverse_left(self, start: int, stop: int, step: int, color: PieceColors, left: int, skipped: List = []) -> Dict:
+        moves: Dict = {}
+        last: List = []
         for r in range(start, stop, step):
             if left < 0:
                 break
 
-            current = self.board[r][left]
+            current: Piece | int = self.board[r][left]
 
             if current == 0:
                 if skipped and not last:
@@ -105,9 +108,9 @@ class Board:
 
                 if last:
                     if step == -1:
-                        row = max(r - 3, 0)
+                        row: int = max(r - 3, 0)
                     else:
-                        row = min(r + r, ROWS)
+                        row: int = min(r + r, ROWS)
 
                     moves.update(self._traverse_left(r + step, row, step, color, left - 1, last))
                     moves.update(self._traverse_left(r + step, row, step, color, left + 1, last))
@@ -121,14 +124,14 @@ class Board:
             left -= 1
         return moves
 
-    def _traverse_right(self, start, stop, step, color, right, skipped = []):
-        moves = {}
-        last = []
+    def _traverse_right(self, start: int, stop: int, step: int, color: PieceColors, right: int, skipped: List = []) -> Dict:
+        moves: Dict = {}
+        last: Dict = []
         for r in range(start, stop, step):
             if right >= COLS:
                 break
 
-            current = self.board[r][right]
+            current: Piece | int = self.board[r][right]
 
             if current == 0:
                 if skipped and not last:
@@ -140,9 +143,9 @@ class Board:
 
                 if last:
                     if step == -1:
-                        row = max(r - 3, 0)
+                        row: int = max(r - 3, 0)
                     else:
-                        row = min(r + r, ROWS)
+                        row: int = min(r + r, ROWS)
 
                     moves.update(self._traverse_right(r + step, row, step, color, right - 1, last))
                     moves.update(self._traverse_right(r + step, row, step, color, right + 1, last))
