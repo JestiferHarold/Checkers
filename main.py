@@ -20,13 +20,13 @@ def get_row_and_col_from_mouse(position: Tuple[int, int]) -> Tuple[int, int]:
 while running:
   clock.tick(FPS)
 
-  if game.turn == PieceColors.WHITE:
-    value, new_board = minimax(game.get_board(), 3, PieceColors.WHITE, game)
-    game.ai_move(new_board)
+  # if game.turn == PieceColors.WHITE:
+  #   value, new_board = minimax(game.get_board(), 3, PieceColors.WHITE, game)
+  #   game.ai_move(new_board)
 
-  if game.turn == PieceColors.RED:
-    value, new_board = minimax(game.get_board(), 3, PieceColors.RED, game)
-    game.ai_move(new_board)
+  # if game.turn == PieceColors.RED:
+  #   value, new_board = minimax(game.get_board(), 3, PieceColors.RED, game)
+  #   game.ai_move(new_board)
 
   if game.winner() != None:
     print(game.winner())
@@ -38,8 +38,7 @@ while running:
 
     if event.type == pygame.MOUSEBUTTONDOWN:
       row, col = get_row_and_col_from_mouse(pygame.mouse.get_pos())
-      if game.turn == PieceColors.RED:
-        game.select(row, col)
+      game.select(row, col)
 
   game.update()
 

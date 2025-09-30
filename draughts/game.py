@@ -1,11 +1,16 @@
 import pygame
 from .game_objects import Board
 from .enums_and_constants import PieceColors, BLOCK_SIZE
+from .piece import Piece
+from typing import Dict
 
 class Game:
-  def __init__(self, screen: pygame.Surface) -> None:
-    self._game_start()
-    self.screen = screen
+  def __init__(self, screen: pygame.Surface):
+    self.selected: Piece | None = None
+    self.board: Board = Board()
+    self.turn: PieceColors = PieceColors.RED
+    self.valid_moves: Dict = dict()
+    self.screen: pygame.Surface = screen
 
   def update(self) -> None:
     self.board.draw(self.screen)
@@ -71,7 +76,9 @@ class Game:
     return self.board
   
   def ai_move(self, board: Board):
-    self.board = board
+    if board != None:
+      self.board = board
+      
     self.change_turn()
     self.selected = None
     self.valid_moves = {}
