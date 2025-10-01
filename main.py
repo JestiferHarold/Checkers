@@ -29,7 +29,8 @@ while running:
     game.ai_move(new_board)
 
   if game.winner() != None:
-    print(game.winner())
+    winner = game.winner()
+    print(f"Game over, {"RED" if winner == PieceColors.RED else "White"} has won")
     break
 
   for event in pygame.event.get():
