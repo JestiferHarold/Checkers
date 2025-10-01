@@ -8,6 +8,7 @@ class PieceColors(Enum):
     BLACK: Tuple[int, int, int] = (0, 0, 0)
     BLUE: Tuple[int, int, int]  = (0, 0, 255)
     GREY: Tuple[int, int, int] = (128, 128, 128)
+    GREEN: Tuple[int, int, int] = (0, 255, 0)
 
 class BoardColor(Enum):
     BLACK: Tuple[int, int, int] = (0, 0, 0)

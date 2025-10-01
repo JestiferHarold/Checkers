@@ -4,7 +4,7 @@ from .piece import Piece
 from typing import List, Dict
 
 class Board:
-    def __init__(self) -> None:
+    def __init__(self):
         self.board = list()
         self.selected_piece: Piece | None = None
         self.red_alive: int = 12 
@@ -75,8 +75,8 @@ class Board:
             return PieceColors.WHITE
         elif self.white_alive <= 0:
             return PieceColors.RED
-        else:
-            return None
+        
+        return None
     
     def evaluate(self) -> int:
         return self.white_alive - self.red_alive + (self.white_kings_alive * 0.5 - self.red_kings_alive * 0.5)

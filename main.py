@@ -21,11 +21,16 @@ while running:
   clock.tick(FPS)
 
   if game.turn == PieceColors.WHITE:
-    value, new_board = minimax(game.get_board(), 3, PieceColors.WHITE, game)
+    value, new_board = minimax(game.get_board(), 3, True, game)
+    game.ai_move(new_board)
+
+  if game.turn == PieceColors.RED:
+    value, new_board = minimax(game.get_board(), 3, False, game)
     game.ai_move(new_board)
 
   if game.winner() != None:
-    print(game.winner())
+    winner = game.winner()
+    print(f"Game over, {"RED" if winner == PieceColors.RED else "White"} has won")
     break
 
   for event in pygame.event.get():
@@ -34,8 +39,7 @@ while running:
 
     if event.type == pygame.MOUSEBUTTONDOWN:
       row, col = get_row_and_col_from_mouse(pygame.mouse.get_pos())
-      if game.turn == PieceColors.RED:
-        game.select(row, col)
+      game.select(row, col)
 
   game.update()
 
