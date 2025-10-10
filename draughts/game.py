@@ -1,5 +1,5 @@
 import pygame
-from .game_objects import Board
+from .board import Board
 from .enums_and_constants import PieceColors, BLOCK_SIZE
 from .piece import Piece
 from typing import Dict
