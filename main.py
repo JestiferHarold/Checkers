@@ -24,7 +24,7 @@ while running:
     value, new_board = minimax(game.get_board(), 3, True, game)
     game.ai_move(new_board)
 
-  if game.turn == PieceColors.RED:
+  elif game.turn == PieceColors.RED:
     value, new_board = minimax(game.get_board(), 3, False, game)
     game.ai_move(new_board)
 
