@@ -1,1 +1,18 @@
-site_name: My Docs
+site_name: Draughts
+nav:
+  - Home: index.md
+  - Setup: setup.md
+  - Modules: modules.md
+  - Time Complexity: timecomplexity.md
+  - Contributers: contributers.md
+
+
+theme:
+  name: mkdocs
+  color_mode: dark
+  favicon: docs/img/favicon.png
+  user_color_mode_toggle: true
+  highlightjs: true
+  hljs_languges:
+    - python
+  nav_style: dark
